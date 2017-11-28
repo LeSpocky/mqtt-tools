@@ -21,3 +21,23 @@ target_link_libraries(mqtt-clock
 install(TARGETS mqtt-clock
 	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
+
+# mqtt-sensors
+option(MQTTA_AGENT_SENSORS
+    "Agent publishing values from lm-sensors"
+    OFF
+)
+
+if(MQTTA_AGENT_SENSORS)
+    find_library(SENSORS_LIBRARY NAMES sensors)
+
+    add_executable(mqtt-sensors
+        mqtt-sensors.c
+    )
+    target_link_libraries(mqtt-sensors
+        "${SENSORS_LIBRARY}"
+    )
+    install(TARGETS mqtt-sensors
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    )
+endif(MQTTA_AGENT_SENSORS)
